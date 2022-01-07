@@ -22,10 +22,18 @@ class BlockWidget extends StatelessWidget {
   }
 
   Widget _getImage() {
+    int qBombs = block!.minesQuantity;
+
     if (block!.open && block!.hasMine && block!.isExploded) {
-      return Image.asset('assets/images/aberto_0.jpeg');
+      return Image.asset('assets/images/bomba_0.jpeg');
+    } else if (block!.open && block!.hasMine) {
+      return Image.asset('assets/images/bomba_1.jpeg');
+    } else if (block!.open) {
+      return Image.asset('assets/images/aberto_$qBombs.jpeg');
+    } else if (block!.isMarked) {
+      return Image.asset('assets/images/bandeira.jpeg');
     } else {
-      return Image.asset('assets/images/aberto_0.jpeg');
+      return Image.asset('assets/images/fechado.jpeg');
     }
   }
 }
