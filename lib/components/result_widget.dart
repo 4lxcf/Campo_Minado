@@ -4,10 +4,11 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
   final bool? won;
   final Function? onRestart;
 
-  ResultWidget({
+  const ResultWidget({
+    Key? key,
     @required this.won,
     @required this.onRestart,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -6,11 +6,12 @@ class BlockWidget extends StatelessWidget {
   final Function(Block)? onOpenUp;
   final Function(Block)? onToggle;
 
-  BlockWidget({
+  const BlockWidget({
+    Key? key,
     @required this.block,
     @required this.onOpenUp,
     @required this.onToggle,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
