@@ -19,27 +19,51 @@ class _MinefieldAppState extends State<MinefieldApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: ResultWidget(
-          won: _won,
-          onRestart: _restart,
-        ),
-        body: Container(
-          color: Colors.grey,
-          child: LayoutBuilder(
-            builder: (ctx, constraints) {
-              return BoardWidget(
-                board: _setBoard(
-                  constraints.maxHeight,
-                  constraints.maxWidth,
-                ),
-                onOpenUp: _onOpenUp,
-                onToggle: _onToggle,
-              );
-            },
+          appBar: ResultWidget(
+            won: _won,
+            onPressed: _restart,
           ),
-        ),
-      ),
+          body: _won == null
+              ? Container(
+                  color: Colors.grey,
+                  child: LayoutBuilder(
+                    builder: (ctx, constraints) {
+                      return BoardWidget(
+                        board: _setBoard(
+                          constraints.maxHeight,
+                          constraints.maxWidth,
+                        ),
+                        onOpenUp: _onOpenUp,
+                        onToggle: _onToggle,
+                      );
+                    },
+                  ),
+                )
+              : _won == true
+                  ? Container(
+                      color: Colors.grey,
+                      child: const Center(
+                        child: Text(
+                          'PARABÉNS! Você venceu!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      color: Colors.grey,
+                      child: const Center(
+                        child: Text(
+                          'Infelizmente você perdeu! Tente novamente!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )),
     );
   }
 
@@ -86,7 +110,8 @@ class _MinefieldAppState extends State<MinefieldApp> {
       _board = Board(
         lines: lines,
         columns: columns,
-        qBombs: 5,
+        //qBombs: ((lines * columns) / 4).floor(),
+        qBombs: 1,
       );
     }
     return _board;
