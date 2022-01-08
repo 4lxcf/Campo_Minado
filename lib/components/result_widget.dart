@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
   final bool? won;
-  final Function? onRestart;
+  final Function()? onRestart;
 
   const ResultWidget({
     Key? key,
@@ -26,7 +26,7 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.black,
                 size: 35,
               ),
-              onPressed: null,
+              onPressed: onRestart,
             ),
           ),
         ),

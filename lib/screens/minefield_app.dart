@@ -1,6 +1,7 @@
 import 'package:campo_minado/components/board_widget.dart';
 import 'package:campo_minado/models/block.dart';
 import 'package:campo_minado/models/board.dart';
+import 'package:campo_minado/models/explosion_exception.dart';
 import 'package:flutter/material.dart';
 import '../components/result_widget.dart';
 
@@ -27,7 +28,7 @@ class _MinefieldAppState extends State<MinefieldApp> {
       home: Scaffold(
         appBar: ResultWidget(
           won: _won,
-          onRestart: null,
+          onRestart: _restart,
         ),
         body: BoardWidget(
           board: board,
@@ -38,7 +39,24 @@ class _MinefieldAppState extends State<MinefieldApp> {
     );
   }
 
-  _onOpenUp(Block b) {}
+  _onOpenUp(Block b) {
+    setState(() {
+      try {
+        b.openUp();
+      } on ExplosionException {}
+    });
+  }
 
-  _onToggle(Block b) {}
+  _onToggle(Block b) {
+    setState(() {
+      b.toggleMark();
+    });
+  }
+
+  _restart() {
+    setState(() {
+      _won = null;
+      board.restart();
+    });
+  }
 }
