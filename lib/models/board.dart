@@ -23,12 +23,16 @@ class Board {
   }
 
   void restart() {
-    _blocks.forEach((element) => element.restart());
+    for (var element in _blocks) {
+      element.restart();
+    }
     _drawMines();
   }
 
   void revealBombs() {
-    _blocks.forEach((element) => element.revealBombs());
+    for (var element in _blocks) {
+      element.revealBombs();
+    }
   }
 
   void _createBlocks() {

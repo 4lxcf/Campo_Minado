@@ -4,25 +4,33 @@ import 'package:campo_minado/models/board.dart';
 import 'package:flutter/material.dart';
 import '../components/result_widget.dart';
 
-class MinefieldApp extends StatelessWidget {
-  Block block = Block(line: 0, column: 0);
+class MinefieldApp extends StatefulWidget {
+  const MinefieldApp({Key? key}) : super(key: key);
 
-  MinefieldApp({Key? key}) : super(key: key);
+  @override
+  State<MinefieldApp> createState() => _MinefieldAppState();
+}
+
+class _MinefieldAppState extends State<MinefieldApp> {
+  bool? _won;
+  Board board = Board(
+    lines: 15,
+    columns: 15,
+    qBombs: 5,
+  );
+
+  Block block = Block(line: 0, column: 0);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: const ResultWidget(
-          won: null,
+        appBar: ResultWidget(
+          won: _won,
           onRestart: null,
         ),
         body: BoardWidget(
-          board: Board(
-            lines: 15,
-            columns: 15,
-            qBombs: 0,
-          ),
+          board: board,
           onOpenUp: _onOpenUp,
           onToggle: _onToggle,
         ),
