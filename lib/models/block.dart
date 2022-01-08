@@ -41,7 +41,9 @@ class Block {
     }
 
     if (safeNeighborhood) {
-      neighbors.forEach((element) => element.openUp());
+      for (var element in neighbors) {
+        element.openUp();
+      }
     }
   }
 
@@ -60,10 +62,10 @@ class Block {
   }
 
   void restart() {
-    bool _open = false;
-    bool _isMarked = false;
-    bool _hasMine = false;
-    bool _isExploded = false;
+    _open = false;
+    _isMarked = false;
+    _hasMine = false;
+    _isExploded = false;
   }
 
   bool get hasMine {
