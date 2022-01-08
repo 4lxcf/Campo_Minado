@@ -40,17 +40,30 @@ class _MinefieldAppState extends State<MinefieldApp> {
   }
 
   _onOpenUp(Block b) {
-    setState(() {
-      try {
-        b.openUp();
-      } on ExplosionException {}
-    });
+    if (_won == null) {
+      setState(() {
+        try {
+          b.openUp();
+          if (board.solved) {
+            _won = true;
+          }
+        } on ExplosionException {
+          _won = false;
+          board.revealBombs();
+        }
+      });
+    }
   }
 
   _onToggle(Block b) {
-    setState(() {
-      b.toggleMark();
-    });
+    if (_won == null) {
+      setState(() {
+        b.toggleMark();
+        if (board.solved) {
+          _won = true;
+        }
+      });
+    }
   }
 
   _restart() {
