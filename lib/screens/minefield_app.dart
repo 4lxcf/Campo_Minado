@@ -14,13 +14,7 @@ class MinefieldApp extends StatefulWidget {
 
 class _MinefieldAppState extends State<MinefieldApp> {
   bool? _won;
-  Board board = Board(
-    lines: 15,
-    columns: 15,
-    qBombs: 5,
-  );
-
-  Block block = Block(line: 0, column: 0);
+  Board? _board;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +24,20 @@ class _MinefieldAppState extends State<MinefieldApp> {
           won: _won,
           onRestart: _restart,
         ),
-        body: BoardWidget(
-          board: board,
-          onOpenUp: _onOpenUp,
-          onToggle: _onToggle,
+        body: Container(
+          color: Colors.grey,
+          child: LayoutBuilder(
+            builder: (ctx, constraints) {
+              return BoardWidget(
+                board: _setBoard(
+                  constraints.maxHeight,
+                  constraints.maxWidth,
+                ),
+                onOpenUp: _onOpenUp,
+                onToggle: _onToggle,
+              );
+            },
+          ),
         ),
       ),
     );
@@ -44,12 +48,12 @@ class _MinefieldAppState extends State<MinefieldApp> {
       setState(() {
         try {
           b.openUp();
-          if (board.solved) {
+          if (_board!.solved) {
             _won = true;
           }
         } on ExplosionException {
           _won = false;
-          board.revealBombs();
+          _board!.revealBombs();
         }
       });
     }
@@ -59,7 +63,7 @@ class _MinefieldAppState extends State<MinefieldApp> {
     if (_won == null) {
       setState(() {
         b.toggleMark();
-        if (board.solved) {
+        if (_board!.solved) {
           _won = true;
         }
       });
@@ -69,7 +73,22 @@ class _MinefieldAppState extends State<MinefieldApp> {
   _restart() {
     setState(() {
       _won = null;
-      board.restart();
+      _board!.restart();
     });
+  }
+
+  _setBoard(double height, double width) {
+    if (_board == null) {
+      int columns = 15;
+      double blockSize = width / columns;
+      int lines = (height / blockSize).floor();
+
+      _board = Board(
+        lines: lines,
+        columns: columns,
+        qBombs: 5,
+      );
+    }
+    return _board;
   }
 }
